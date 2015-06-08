@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template
 import SQLConnector
+from flask import request
 
 app = Flask(__name__)
 
@@ -61,14 +62,21 @@ GROUP BY
 """ % (ledger, start_date, end_date))
     return data_table
 
-table = sql_generate_table('0506', '2015-06-01', '2015-06-03')
-columns = table[0]
-col_names = ['Employee_ID','Submit_Date','Last_Name', 'First_Name','Employee_Ledger','Employee_Currency','Report_Total','Business_Purpose',
+# table = sql_generate_table('0506', '2015-06-01', '2015-06-03')
+col_names = ['No','Employee_ID','Submit_Date','Last_Name', 'First_Name','Employee_Ledger','Employee_Currency','Report_Total','Business_Purpose',
              'Additional_Accounting_Info','Expense_SubAccount','Payable','Expense_Currency','Expense_Exchange_Rate','Local_Currency_Net_Amount']
 
-@app.route('/')
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', col_names=col_names, columns=columns)
+    if request.method == 'POST':
+        ledger = request.form['ledger'];
+        start_date = request.form['start_date'];
+        end_date = request.form['end_date'];
+        table = sql_generate_table(ledger, start_date, end_date)
+        return  render_template('index.html', col_names=col_names, table=table)
+    else:
+        return render_template('index.html', col_names=[], table=[])
 
 
 

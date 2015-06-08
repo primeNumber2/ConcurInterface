@@ -6,17 +6,31 @@
 </head>
 <body>
     <h1>Concur table from data warehouse</h1>
+    <form method="post">
+    <label>Ledger</label>
+    <input type="text" value="0506" name="ledger"/>
+    <label>Start_Date</label>
+    <input type="date" name="start_date">
+    <label>End_Date</label>
+    <input type="date" name="end_date">
+    <input type="submit" value="submit">
+    </form>
+
+    <br><br>
     <table  height="70%"  border="1" bordercolor="black" cellspacing="0" cellpadding="10">
         <tr >
             {%for col_name in col_names%}
             <td>{{col_name}}</td>
             {% endfor %}
         </tr>
+        {% for row_num in range(table|length) %}
         <tr>
-            {% for col in columns%}
+            <td>{{row_num + 1}} </td>
+            {% for col in table[row_num] %}
             <td>{{col}}</td>
             {% endfor %}
         </tr>
+        {% endfor %}
     </table>
 </body>
 </html>
