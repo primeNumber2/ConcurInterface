@@ -74,9 +74,11 @@ def index():
         start_date = request.form['start_date'];
         end_date = request.form['end_date'];
         table = sql_generate_table(ledger, start_date, end_date)
-        return  render_template('index.html', col_names=col_names, table=table)
+        # f = request.files['the_file']
+        # f.save('c:/python27/upload_file.txt')
+        return render_template('index.html', ledger=ledger, start_date=start_date, end_date=end_date, col_names=col_names, table=table)
     else:
-        return render_template('index.html', col_names=[], table=[])
+        return render_template('index.html')
 
 
 
