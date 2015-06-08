@@ -5,20 +5,17 @@
     <title></title>
 </head>
 <body>
-    <h1>New element</h1>
-    {% for name in names %}
-    <p>{{name}}</p>
-    {% endfor%}
-    <table  bgcolor="#DAB4F1"  height="70%" align="center" border="1" bordercolor="black" cellspacing="0" cellpadding="0">
-        <tr>
-            <td>
-                row1, cell1
-            </td>
-            <td>row1, cell2</td>
+    <h1>Concur table from data warehouse</h1>
+    <table  height="70%"  border="1" bordercolor="black" cellspacing="0" cellpadding="10">
+        <tr >
+            {%for col_name in col_names%}
+            <td>{{col_name}}</td>
+            {% endfor %}
         </tr>
         <tr>
-            <td><input name="age" type="text"><input type="submit" value="submit"></td>
-            <td><input name="value" type="text"></td>
+            {% for col in columns%}
+            <td>{{col}}</td>
+            {% endfor %}
         </tr>
     </table>
 </body>

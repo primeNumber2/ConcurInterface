@@ -4,6 +4,8 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Harbin_BOMList" />
+    <orderEntry type="module" module-name="ImportPO" />
   </component>
 </module>
 

@@ -4,23 +4,22 @@ import SQLConnector
 
 app = Flask(__name__)
 
-names = ['frank', 'jack', 'john']
-
 
 def sql_generate_table(ledger, start_date, end_date):
     # return the table of sql date
     sql_connector = SQLConnector.ms_sql
-    sql_connector.exec_query( """SELECT top 10 a.Report_Key,
-		a.Batch_ID,
-		a.Batch_Date,
+    data_table = sql_connector.ExecQuery( """SELECT
+       --a.Report_Key,
+		--a.Batch_ID,
+		--a.Batch_Date,
 		a.Employee_ID,
 		a.Submit_Date,
 		a.Last_Name,
 		a.First_Name,
-		a.Employee_Country,
-		a.Employee_BU,
+		--a.Employee_Country,
+		--a.Employee_BU,
 		a.Employee_Ledger,
-		a.Employee_CostCenter,
+		--a.Employee_CostCenter,
 		a.Employee_Currency,
 		a.Report_Total,
 		a.Business_Purpose,
@@ -39,8 +38,7 @@ AND	a.Employee_Ledger = %s
 AND	a.Submit_Date > '%s'
 AND	a.Submit_Date < '%s'
 GROUP BY
-
-a.Report_Key,
+       a.Report_Key,
 		a.Batch_ID,
 		a.Batch_Date,
 		a.Employee_ID,
@@ -61,10 +59,18 @@ a.Report_Key,
 		b.Expense_Exchange_Rate,
 		b.Receipt_Type
 """ % (ledger, start_date, end_date))
+    return data_table
+
+table = sql_generate_table('0506', '2015-06-01', '2015-06-03')
+columns = table[0]
+col_names = ['Employee_ID','Submit_Date','Last_Name', 'First_Name','Employee_Ledger','Employee_Currency','Report_Total','Business_Purpose',
+             'Additional_Accounting_Info','Expense_SubAccount','Payable','Expense_Currency','Expense_Exchange_Rate','Local_Currency_Net_Amount']
 
 @app.route('/')
 def index():
-    return render_template('index.html', names = names)
+    return render_template('index.html', col_names=col_names, columns=columns)
+
+
 
 if __name__ == "__main__":
     app.run('0.0.0.0', 8080, True)
