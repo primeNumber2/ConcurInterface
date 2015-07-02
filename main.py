@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template
 import SQLConnector
 from flask import request, redirect, url_for, make_response, current_app
+import datetime
 
 app = Flask(__name__)
 
@@ -68,22 +69,18 @@ col_names = ['No','Employee_ID','Submit_Date', 'Last_Name', 'First_Name','Employ
              'Expense_Currency', 'Expense_Exchange_Rate', 'Local_Currency_Net_Amount']
 
 
-@app.route('/login/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        # response = make_response(render_template('login.html'))
-        return render_template('login.html')
+        if request.cookies.get('username'):
+            return redirect(url_for('index'))
+        else:
+            return render_template('login.html')
 
     else:
-        redirect_to_index = redirect('/data')
+        response = make_response(redirect(url_for('index')))
         username = request.form['username']
-        print type(username)
-        response = current_app.make_response(redirect_to_index)
-        response.set_cookie('cookie_name',value=username)
         return response
-        # return redirect(url_for('index'))
-        # response1 = make_response(redirect(url_for('index')))
-        # return response1
 
 
 @app.route('/data', methods=['GET', 'POST'])
@@ -98,6 +95,5 @@ def index():
         return render_template('index.html')
 
 
-
 if __name__ == "__main__":
-    app.run('0.0.0.0', 8080, True)
+    app.run('0.0.0.0', 5000)

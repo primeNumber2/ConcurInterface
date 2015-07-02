@@ -3,8 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ConcurInterface.iml" filepath="$PROJECT_DIR$/.idea/ConcurInterface.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../Harbin_BOMList/.idea/Harbin_BOMList.iml" filepath="$PROJECT_DIR$/../Harbin_BOMList/.idea/Harbin_BOMList.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ImportPO/.idea/ImportPO.iml" filepath="$PROJECT_DIR$/../ImportPO/.idea/ImportPO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../studyFlask/.idea/studyFlask.iml" filepath="$PROJECT_DIR$/../studyFlask/.idea/studyFlask.iml" />
     </modules>
   </component>
 </project>
