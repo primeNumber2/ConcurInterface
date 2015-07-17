@@ -2,7 +2,11 @@
   <dictionary name="WangS15">
     <words>
       <w>endfor</w>
+      <w>kingdee</w>
       <w>mssql</w>
+      <w>proc</w>
+      <w>syscolumns</w>
+      <w>sysobjects</w>
     </words>
   </dictionary>
 </component>
