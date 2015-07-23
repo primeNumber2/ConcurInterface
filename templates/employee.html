@@ -17,9 +17,23 @@
     </form>
     <br><br>
     <table border="1" bordercolor="black" cellspacing="0" cellpadding="10">
+        <tr>
+            {% for name in col_names%}
+            <td>{{name}}</td>
+            {%endfor%}
+        </tr>
         {% for row_num in range( table|length )%}
-            <td></td>
-            <td><input type="text"></td>
+            <tr>
+                <td>{{row_num + 1}}</td>
+                <!--计算每一行有多少列的数据，减1是因为col_names中，第一列No是额外加上去的-->
+                {%for col_num in range( col_names|length - 1 )%}
+                    {% if table[row_num][col_num] == None and col_num == 3 %}
+                        <td><input type="text"></td>
+                    {% else %}
+                        <td>{{table[row_num][col_num]}}</td>
+                    {% endif %}
+                {%endfor%}
+            </tr>
         {% endfor %}
 
     </table>

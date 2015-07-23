@@ -22,7 +22,7 @@ class MSSQL:
     def __GetConnect(self):
         if not self.db:
             raise(NameError, "No database information")
-        self.conn = pymssql.connect(host = self.host, user=self.user, password = self.pwd, database = self.db, charset = "utf8")
+        self.conn = pymssql.connect(host=self.host, user=self.user, password = self.pwd, database = self.db, charset = "cp936")
         cur = self.conn.cursor()
         if not cur:
             raise(NameError, "connection failed")
