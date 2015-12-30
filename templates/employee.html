@@ -2,38 +2,54 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8" >
-    <title></title>
+    <title>Employee</title>
+    <style type="text/css">
+        .para { color: #f60;
+                font-weight: bold}
+    </style>
 </head>
 <body>
-    <h1>Concur table from data warehouse</h1>
-    <form method="post">
-    <label>Ledger</label>
-    <input type="text" value="0506" name="ledger" value="{{ledger}}"/>
-    <label>Start_Date</label>
-    <input type="date" name="start_date" value="{{start_date}}">
-    <label>End_Date</label>
-    <input type="date" name="end_date" value="{{end_date}}">
-    <input type="submit" value="submit">
-    </form>
+    <h1>Employee information</h1>
+
+    <label>Ledger:</label>
+    <label class="para">{{ledger}}</label>
+    <label>Start_Date:</label>
+    <label class="para">{{start_date}}</label>
+    <label>End_Date:</label>
+    <label class="para">{{end_date}}</label>
     <br><br>
-    <table border="1" bordercolor="black" cellspacing="0" cellpadding="10">
-        <tr>
-            {% for name in col_names%}
-            <td>{{name}}</td>
-            {%endfor%}
-        </tr>
-        {% for row_num in range( table|length )%}
+    <form method="post">
+        <br>
+        {% if influenced_rows: %}
+        <p style="color:red">{{influenced_rows}} rows were updated</p>
+        {% endif %}
+        <br>
+        <table border="1" bordercolor="black" cellspacing="0" cellpadding="10">
             <tr>
-                <td>{{row_num + 1}}</td>
-                <!--计算每一行有多少列的数据，减1是因为col_names中，第一列No是额外加上去的-->
-                {%for col_num in range( col_names|length - 1 )%}
-                    {% if table[row_num][col_num] == None and col_num == 3 %}
-                        <td><input type="text"></td>
-                    {% else %}
-                        <td>{{table[row_num][col_num]}}</td>
-                    {% endif %}
+                {% for name in col_names%}
+                <td>{{name}}</td>
                 {%endfor%}
             </tr>
-        {% endfor %}
-
-    </table>
+            {% for row_num in range( table|length )%}
+                <!--计算每一行有多少列的数据，因为col_names中，第一列No是额外加上去的,所以col_num要减1-->
+                <tr>
+                    <td name="headline">{{row_num + 1}}</td>
+                    {%for col_num in range( col_names|length - 1 )%}
+                        {% if table[row_num][3] == None and col_num == 2 %}
+                            <td name="employee">{{table[row_num][col_num]}}</td>
+                        {% elif table[row_num][3] == None and col_num == 3 %}
+                            <td><input type="text" name="Kingdee_No" ></td>
+                        {% else %}
+                            <td>{{table[row_num][col_num]}}</td>
+                        {% endif %}
+                    {%endfor%}
+                </tr>
+            {% endfor %}
+        </table>
+        <br><br>
+        <input type="submit" name="update"  value="update">
+        <script>
+        </script>
+    </form>
+</body>
+</html>

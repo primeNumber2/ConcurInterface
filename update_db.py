@@ -1,6 +1,6 @@
 import SQLConnector
 
-sql_connector = SQLConnector.ms_sql
+sql_connector = SQLConnector.ms_sql_utf8
 
 
 #The below scripts were divided into two parts, part1 update tbl_ConExpenseReports, part2 update tbl_ConcurExpenseDetails
@@ -27,7 +27,7 @@ def update_tbl_concur_expense_reports():
                         % (table_columns,table_columns, max_report_key)
     #udpdat the db and return the influenced rows number
     row_counts = sql_connector.ExecNoQuery(insert_sql_string)
-    print str(row_counts) + " rows on expense report are updated"
+    print(str(row_counts) + " rows on expense report are updated")
 
 
 #part2
@@ -45,10 +45,10 @@ def update_tbl_concur_expense_details(batch_lines):
     end_id = sql_connector.ExecQuery("SELECT MAX(id) FROM tbl_ConcurExpenseReports")[0][0]
     # if no new information, quit the function
     if start_id == end_id:
-        print "No new Report_Key generated"
+        print("No new Report_Key generated")
         return 0
     else:
-        print str(end_id - start_id) + " id will be updated in expense details"
+        print(str(end_id - start_id) + " id will be updated in expense details")
     # generate sql string
     table_columns = sql_connector.ExecQuery("SELECT	a.name "
                                             "FROM	syscolumns	a "
@@ -58,12 +58,14 @@ def update_tbl_concur_expense_details(batch_lines):
     table_columns = ",".join([element[0] for element in table_columns])
     # update the db in batches
     while start_id < end_id:
-        start_key = sql_connector.ExecQuery("SELECT Report_Key FROM tbl_ConcurExpenseReports WHERE id = %s" % start_id)[0][0]
+        start_key = sql_connector.ExecQuery("SELECT Report_Key FROM tbl_ConcurExpenseReports WHERE id = %s"
+                                            % start_id)[0][0]
         if end_id - start_id > batch_lines:
             start_id += batch_lines
         else:
             start_id = end_id
-        end_key = sql_connector.ExecQuery("SELECT Report_Key FROM tbl_ConcurExpenseReports WHERE id = %s" % start_id)[0][0]
+        end_key = sql_connector.ExecQuery("SELECT Report_Key FROM tbl_ConcurExpenseReports WHERE id = %s"
+                                          % start_id)[0][0]
         row_counts = sql_connector.ExecNoQuery("INSERT INTO tbl_ConcurExpenseDetails(%s) SELECT * FROM "
                                               "Concur.DW_Master.MD.tbl_ConcurExpenseDetails "
                                               "WHERE Report_Key IN "
@@ -71,8 +73,9 @@ def update_tbl_concur_expense_details(batch_lines):
                                               "WHERE Report_Key > %s "
                                               "AND  Report_Key <= %s )  " % (table_columns, start_key, end_key) )
 
-        print "The start Key is " + str(start_key), "; The end key is " + str(end_key)
-        print str(row_counts) + " rows on expense details are updated; ", str(end_id - start_id) + " Report_Keys are left"
+        print("The start Key is " + str(start_key), "; The end key is " + str(end_key))
+        print(str(row_counts) + " rows on expense details are updated; ", str(end_id - start_id) +
+              " id are left")
 
 
 if __name__ == "__main__":

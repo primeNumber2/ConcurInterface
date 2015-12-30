@@ -12,9 +12,12 @@
     <label>Start_Date</label>
     <input type="date" name="start_date" value="{{start_date}}">
     <label>End_Date</label>
+    <input type="hidden" name="error_message" value="{{error_message}}">
     <input type="date" name="end_date" value="{{end_date}}">
-    <input type="submit" value="submit">
-    </form>
+    <input type="submit" name="bt" value="data">
+    <input type="submit" name="bt" value="employee">
+    <input type="submit" name="bt" value="check">
+
     <br><br>
     <table  height="70%"  border="1" bordercolor="black" cellspacing="0" cellpadding="10">
         <tr>
@@ -25,10 +28,18 @@
         {% for row_num in range(table|length) %}
         <tr>
             <td>{{row_num + 1}} </td>
-            {% for col_num in range(table[row_num]|length) %}
+            {% for col_num in range(col_names|length - 1) %}
             <!--对于第5列和第6列（职员和部门），如果没有数据，不能保存，所以将这两列归为一类-->
-                {%if col_num == 5 or col_num == 6 %}
-                <td class="no_empty">{{table[row_num][col_num]}}</td>
+                {%if col_num == 5%}
+                <td name="kingdee_number">{{table[row_num][col_num]}}</td>
+                {% elif col_num == 6 %}
+                <td name="kingdee_department">{{table[row_num][col_num]}}</td>
+                {% elif col_num == table[row_num]|length - 1%}
+                <td name="additional_accounting_info">{{table[row_num][col_num]}}</td>
+                {% elif col_num == table[row_num]|length %}
+                <td><input type="text" name="department"></td>
+                {% elif col_num > table[row_num]|length %}
+                <td><input type="text" class="project"> </td>
                 {% else %}
                 <td>{{table[row_num][col_num]}}</td>
                 {% endif %}
@@ -36,14 +47,26 @@
         </tr>
         {% endfor %}
     </table>
-    <!--<script>-->
-        <!--values = document.querySelectorAll(".no_empty");-->
-        <!--var flag = 0;-->
-        <!--for ( var i = 0; i < values.length; i++ ) {-->
-            <!--if ( values[i].innerText === "None" ) {-->
-                <!--values[i].style.background="red";-->
-            <!--}-->
-        <!--}-->
-    <!--</script>-->
+    </form>
+    <script>
+        kingdee_numbers = document.getElementsByName("kingdee_number");
+        kingdee_departments = document.getElementsByName("kingdee_department");
+        additional_accounting_info = document.getElementsByName("additional_accounting_info");
+        departments = document.getElementsByName("department");
+        var flag = 0;
+        for ( var i = 0; i < kingdee_numbers.length; i++ ) {
+            if ( kingdee_numbers[i].innerText === "None" ) {
+                kingdee_numbers[i].style.background = "red";
+                kingdee_departments[i].style.background = "red";
+            }
+            if ( additional_accounting_info[i].innerText === "None" &&  kingdee_departments[i].innerText != "None" ) {
+                departments[i].value = kingdee_departments[i].innerHTML;
+
+            }
+        }
+s
+
+
+    </script>
 </body>
 </html>
